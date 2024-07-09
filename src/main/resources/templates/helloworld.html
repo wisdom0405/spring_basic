@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<!--thymleaf : spring에서 java코드가 더해진 html을 만들어주는 템플릿 엔진-->
+<!--th:text 타임리프 텍스트 문법-->
+<!--모델을 통해 텍스트를 화면에 주입-->
+<html lang="en" xmlns:th = "http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>안냐세요</title>
+</head>
+<body>
+    <p><spans th:text="${name}"></spans>님 hello world</p>
+    <h2>네 안냐세요</h2>
+</body>
+</html>

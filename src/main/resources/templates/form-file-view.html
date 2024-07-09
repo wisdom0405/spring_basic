@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form-file-view</title>
+</head>
+<body>
+<!--  case2. multipart/form-data 방식(text와 file) 전송
+      url 명 : form-file-post, 메서드명 : formFilePost3, 화면명 : form-file-view
+      form 태그 : name, email, password, file-->
+    <form action="/hello/form-file-post" method="post" enctype="multipart/form-data">
+
+        이름 : <input type="text" name="name"> <br>
+        email : <input type="email" name="email"> <br>
+        password : <input type="password" name="password"> <br>
+        신분증 : <input type="file" name="photo">
+
+        <input type="submit" value="제출">
+
+    </form>
+
+</body>
+</html>

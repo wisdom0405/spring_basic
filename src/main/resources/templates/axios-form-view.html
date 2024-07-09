@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios-form-view</title>
+</head>
+<body>
+    <form id="form-view">
+
+        이름 : <input type="text" name="name" id="name"> <br>
+        email : <input type="email" name="email" id="email"> <br>
+        password : <input type="password" name="password" id="password"> <br>
+
+        <input type="submit" value="제출">
+
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('form-view').addEventListener('submit',
+            async function (event) {
+                event.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('password',password);
+                try {
+                    const response = await axios.post('http://localhost:8080/hello/axios-form-view', formData);
+                    console.log(response.data);
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+        )
+    </script>
+
+</body>
+</html>
