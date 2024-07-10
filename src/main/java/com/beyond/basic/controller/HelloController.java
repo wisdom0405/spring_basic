@@ -134,7 +134,7 @@ public class HelloController{
 //    case 1. url 인코딩 방식 (text만) 전송
 //    input 데이터 형식 : key1=value1&key2=value&key3=value3
 //    data가 key-value 형식이므로 RequestParam 써야함
-//    localhost:8080/hello/formView
+//    localhost:8080/hello/form-view
     @PostMapping("/form-post1") // getmapping과 같은 url 패턴 사용 가능
     @ResponseBody
 //    html의 name = "email"의 name과 매핑
@@ -171,6 +171,10 @@ public class HelloController{
     public String formFileHandle(Hello hello,
                                  @RequestParam(value = "file") MultipartFile file
     ) {
+        // 'Hello' 객체를 'formFileHandle' 메서드의 파라미터로 사용한 이유는
+        // Spring MVC의 데이터 바인딩 기능을 이용하여
+        // HTML 폼에서 전송된 데이터를 객체에 자동으로 매핑하기 위함입니다. 이는 코드의 간결성과 유지보수성을 높이는 데 유리합니다.
+        // 이를 통해 여러개의 @RequestParam 어노테이션을 사용하는 대신, 하나의 객체를 사용하여 데이터를 받을 수 있습니다.
         System.out.println(hello);
         System.out.println(file.getOriginalFilename());
         return "ok";

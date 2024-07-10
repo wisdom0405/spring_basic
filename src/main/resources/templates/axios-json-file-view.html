@@ -24,7 +24,7 @@
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
                 const hello = {name:name, email:email, password:password};
-                const helloJson = JSON.stringify(hello);
+                const helloJson = JSON.stringify(hello); // js객체를 JSON 문자열로 변환한다.
 
                 const fileInput = document.getElementById('file');
                 const file = fileInput.files[0]; //file은 배열형태로 get 된다. '.files' 함수를 통해서 0번째 값을 뽑아옴 (어차피 1개 밖에없어서 0번째 가져오면 됨)
