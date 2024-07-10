@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios-nested-json-view</title>
+</head>
+<body>
+    <form id="form-view">
+        이름 : <input type="text" name="name" id="name"> <br><br>
+        email : <input type="email" name="email" id="email"> <br><br>
+
+        <div id="grades">
+            <p>성적 정보 : </p>
+            <div class="grade">
+                수업명 : <input type="text" class="className" name="className"><br><br>
+                점수 : <input type="text" class="point" name="point"> <br><br>
+            </div>
+        </div>
+        <!-- 과목추가 누를 때마다 text 박스 늘어남-->
+        <button type="button" onclick="addGrade()">성적 추가</button> <br><br>
+        <input type="submit" value="제출">
+
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        function addGrade(){
+            const gradeDiv = document.getElementById('grades');
+            gradeDiv.innerHTML += `
+                <div class="grade">
+                    수업명 : <input type="text" class="className" name="className"><br><br>
+                    점수 : <input type="text" class="point" name="point"> <br><br>
+                </div>
+            `;
+        }
+    </script>
+    <script>
+        document.getElementById('form-view').addEventListener('submit',
+            async function (event) {
+                event.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                let grades = [];
+                const gradeDivs = document.getElementsByClassName('grade');
+                for(let i=0; i<gradeDivs.length; i++){
+                    const className = gradeDivs[i].getElementsByClassName('className')[0].value;
+                    const point = gradeDivs[i].getElementsByClassName('point')[0].value;
+                    const gradeObj = {className, point};
+                    grades.push(gradeObj); // grades = [{java:80}, {spring:100}] 형태
+                }
+
+                console.log(name, email, grades);
+
+                const student = {name:name, email:email, grades:grades};
+                const studentJson = JSON.stringify(student);
+
+                const formData = new FormData();
+
+                formData.append('student', new Blob([studentJson], {type:"application/json"}));
+
+                try {
+                    const response = await axios.post('http://localhost:8080/hello/axios-nested-json-view',
+                    {name:name, email:email, grades:grades}
+                    );
+                    console.log(response.data);
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+        )
+    </script>
+
+</body>
+</html>

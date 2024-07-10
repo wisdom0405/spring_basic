@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios-json-file-view</title>
+</head>
+<body>
+    <form id="form-view">
+    <!-- 파일 여러개 선택하기 위해서 Multiple 옵션준다. -->
+        이름 : <input type="text" name="name" id="name"> <br>
+        email : <input type="email" name="email" id="email"> <br>
+        password : <input type="password" name="password" id="password"> <br>
+        신분증 : <input type="file" name="file" id="file" multiple>
+        <input type="submit" value="제출">
+
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('form-view').addEventListener('submit',
+            async function (event) {
+                event.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const hello = {name:name, email:email, password:password};
+                const helloJson = JSON.stringify(hello);
+
+                const fileInput = document.getElementById('file');
+                const files = fileInput.files; // file 은 배열형태로 get
+
+                const formData = new FormData();
+<!--                formData.append('hello', helloJson);-->
+                formData.append('hello', new Blob([helloJson], {type:"application/json"}));
+
+                for(let i=0; i<files.length; i++){
+                    formData.append('files', files[i])
+                }
+
+                try {
+                    const response = await axios.post('http://localhost:8080/hello/axios-json-multi-file-view', formData,
+                                    {headers: {'Content-Type' : 'multipart/form-data'}});
+                    console.log(response.data);
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+        )
+    </script>
+
+</body>
+</html>
