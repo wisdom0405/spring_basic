@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th = "http://www.thymleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원가입 member-create</title>
 </head>
 <body>
-<form action="/member/create" method="post">
-    <p>이름 : <input type="text" name="name"> </p>
-    <p>email : <input type="text" name="email"> </p>
-    <p>password : <input type="text" name="password"> </p>
-    <p><input type="submit" value="가입완료"></p>
-</form>
+    <div th:replace="member/header :: headerFragment"></div>
+
+    <form action="/member/create" method="post">
+        <p>이름 : <input type="text" name="name"> </p>
+        <p>email : <input type="text" name="email"> </p>
+        <p>password : <input type="text" name="password"> </p>
+        <p><input type="submit" value="가입완료"></p>
+    </form>
 
 </body>
 </html>
