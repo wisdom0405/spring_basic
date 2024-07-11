@@ -6,8 +6,8 @@ import java.util.List;
 
 public class MemberJpaRepository implements MemberRepository{
     @Override
-    public void save(Member memeber) {
-
+    public Member save(Member memeber) {
+        return null;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.beyond.basic.controller.MemberController;
 import com.beyond.basic.domain.Member;
 import com.beyond.basic.domain.MemberReqDto;
 import com.beyond.basic.domain.MemberResDto;
+import com.beyond.basic.repository.MemberJdbcRepository;
 import com.beyond.basic.repository.MemberMemoryRepository;
 import com.beyond.basic.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Autowired // 싱글톤객체를 주입(Dependency Injection: DI) 받는다는 것을 의미
-    public MemberService(MemberMemoryRepository memoryRepository){
+    public MemberService(MemberJdbcRepository memoryRepository){
         // MemberServive 생성자가 호출될 때마다 MemberRepository 객체 생성
         // 한 객체를 다른 클래스에서 갖다 쓸 수 있도록 하려면 SingleTon 사용 (객체 하나를 전역적을 접근하도록)
         this.memberRepository = memoryRepository; // 이름 충돌날 수 있으므로 this.붙여줌

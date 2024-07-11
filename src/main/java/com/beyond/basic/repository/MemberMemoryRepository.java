@@ -18,8 +18,9 @@ public class MemberMemoryRepository implements MemberRepository{
     }
 
     @Override
-    public void save(Member member) {
+    public Member save(Member member) {
          memberList.add(member);
+         return member;
     }
 
     @Override
