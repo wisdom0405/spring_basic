@@ -31,10 +31,14 @@
 
                 const formData = new FormData();
 <!--                formData.append('hello', helloJson);-->
-                formData.append('hello', new Blob([helloJson], {type:"application/json"}));
-                formData.append('file', file);
+                formData.append('helloKey', new Blob([helloJson], {type:"application/json"})); //@RequestPart("helloKey")의 helloKey에 매핑
+                formData.append('fileKey', file); // @RequestPart("fileKey")의 "fileKey"에 매핑
 
                 try {
+                    // 지정된 url(axios-json-file-view)에 post요청을 생성
+                    // 'formData'객체에 전송할 데이터 포함(JSON + 파일)
+                    // Content-Type을 설정하여 서버가 요청 본문을 multipart/form-data 형식으로 해석하도록 함.
+                    // await 키워드를 사용하여 요청이 완료될 때까지 기다리고 요청이 완료되면 서버의 응답이 response 변수에 할당된다.
                     const response = await axios.post('http://localhost:8080/hello/axios-json-file-view', formData,
                                     {headers: {'Content-Type' : 'multipart/form-data'}});
                     console.log(response.data);

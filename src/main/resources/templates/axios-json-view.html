@@ -24,8 +24,11 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            console.log(name, email, password);
+<!--            console.log(name, email, password);-->
             try {
+                // 클라이언트는 axios.post 메서드를 사용하여 서버에 JSON 형식의 데이터를 전송(이름, 이메일, 비밀번호)
+                // 서버는 이 요청을 수신하고 요청본문에 포함된 JSON 데이터를 @RequestBody 어노테이션을 사용하여 자바 객체로 변환한다.
+                // Spring MVC가 요청을 수신할 때, HTTP 요청 본문을 일고 이를 자바 객체로 변환합니다.
                 const response = await axios.post('http://localhost:8080/hello/axios-json-view',
                 {"name":name, "email":email, "password":password}
                 );

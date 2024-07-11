@@ -228,6 +228,9 @@ public class HelloController{
 //    json으로 들어온 데이터를 처리할 때는 @RequestBody 어노테이션 사용, parameter 방식은 안붙여도 됨.
     public String axiosJsonPost(@RequestBody Hello hello) {
 //        @RequestBody : 요청본문(request body)에 담긴 값을 자바객체로 변환
+//        @RequestBody 어노테이션은 HTTP 요청 본문을 읽고 이를 지정된 클래스(Hello)의 객체로 변환합니다.
+//        요청본문 : POST,PUT 요청에서 사용되며 json, xml, html, 폼데이터 등 다양한 형식으로 존재
+//
         System.out.println(hello); // Hello(name=정슬기, email=wis@naver.com, password=1111)
         return "ok";
     }
@@ -249,8 +252,8 @@ public class HelloController{
 //                                    @RequestParam("hello") String hello,
 //                                    @RequestParam("file") MultipartFile file
 //                                     formdata를 통해 json, file(멀티미디어)을 처리할 때 RequestPart 어노테이션을 많이 사용
-            @RequestPart("hello") Hello hello,
-            @RequestPart("file") MultipartFile file
+            @RequestPart("helloKey") Hello hello,
+            @RequestPart("fileKey") MultipartFile file
 
     ) throws JsonProcessingException {
         System.out.println(hello);
