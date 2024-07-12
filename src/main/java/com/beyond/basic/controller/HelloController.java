@@ -13,7 +13,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/hello") // 클래스 차원에 url매핑시에 RequestMapping 사용
-//
+// 클래스와 메소드의 RequestMapping을 통해 URL을 매핑하여 경로를 설정하여 해당 메소드에서 처리
+// value : url설정, method : GET, POST, DELETE, PUT, PATCH
 
 //@RestController // Controller + 각 메서드마다 @ResponseBody
 // 해당 클래스가 컨트롤러임을 명시
@@ -52,7 +53,7 @@ public class HelloController{
         return hello;
     }
 
-
+    // @GetMapping(without Param) : 별도의 파라미터 없이 GET API를 호출하는 경우 사용되는 방법
     //    case4. 사용자가 json 데이터를 요청하되, parameter 형식으로 특정객체 요청
     // get 요청 중에 특정 데이터를 요청
     @GetMapping("/param1")
@@ -70,7 +71,7 @@ public class HelloController{
         return hello;
     }
 
-    // url 패턴 : Param2, 메서드명 : modelParam2
+    // url 패턴 : Param2, 메서드명 : Param2
     // parameter 2개 : name, email => hello 객체 생성 후 리턴
     // 요청방식 : ?name=xxx&email=xxx@naver.com
     // RequestParam : 무조건 넣어줘야 함
@@ -131,6 +132,7 @@ public class HelloController{
     }
 
     //    post 요청 (사용자 입장에서 서버에 데이터를 주는 상황)
+//    PostAPI : 리소스를 추가하기 위해 사용하는 API : 일반적으로 추가하고자 하는 리소스를 http body에 추가하여 서버에 요청. 그렇기 때문에 @RequestBody를 이용하여 body에 담겨있는 값을 받아야 함.
 //    case 1. url 인코딩 방식 (text만) 전송
 //    input 데이터 형식 : key1=value1&key2=value&key3=value3
 //    data가 key-value 형식이므로 RequestParam 써야함
