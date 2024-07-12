@@ -28,6 +28,7 @@ public class MemberJpaRepository implements MemberRepository{
     @Override
     public List<Member> findAll() {
 //        jpql : jpa의 raw쿼리 문법(객체지향 쿼리문법)
+//        jpa에서는 jpql 문법 컴파일에러가 나오지 않으나, springdatajpa에서는 컴파일 에러 발생
         List<Member> memberList = entityManager.createQuery("select m from Member m", Member.class).getResultList();
         return memberList;
     }
