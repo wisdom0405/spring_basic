@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // 해당 클래스가 Repository 계층임을 표현함과 동시에 싱글톤 객체로 생성
 // 싱글톤 : 모든 클래스에서 이 객체를 돌려쓸 수 있도록 만든다는 뜻 (단하나의 객체만 만든다.)
@@ -29,7 +30,7 @@ public class MemberMemoryRepository implements MemberRepository{
     }
 
     @Override
-    public Member findById(Long id) {
+    public Optional<Member> findById(Long id) {
         return null;
     }
 }

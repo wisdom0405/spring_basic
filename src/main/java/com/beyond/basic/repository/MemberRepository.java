@@ -3,6 +3,7 @@ package com.beyond.basic.repository;
 import com.beyond.basic.domain.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository {
     // 인터페이스이므로 실질적인 로직은 안들어감 -> Implements 해줘야 함.
@@ -11,5 +12,5 @@ public interface MemberRepository {
 
     List<Member> findAll();
 
-    Member findById(Long id);
+    Optional<Member> findById(Long id); //JpaRepository와 싱크맞춰주기 위함
 }

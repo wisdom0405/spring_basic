@@ -9,9 +9,11 @@ import com.beyond.basic.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // input값의 검증 및 실질적인 비즈니스 로직은 서비스 계층에서 수행
 @Service // 서비스 계층임을 표현함과 동시에 싱글톤객체로 생성
@@ -19,15 +21,26 @@ import java.util.List;
 // 만약 예외가 발생 시 롤백처리 자동화 (각 메서드마다 하나의 트랜잭션으로 묶는다는 뜻) -> 하나라도 예외가 발생하면 모두 롤백처리
 @Transactional //JPA에서 필수
 public class MemberService {
+    // 다형성 설계
     // 최초 MemberService가 만들어질때만 memerRepository가 만들어지도록 final 선언하여 재할당 불가하도록 함
     private final MemberRepository memberRepository;
 
     @Autowired // 싱글톤객체를 주입(Dependency Injection: DI) 받는다는 것을 의미
-    public MemberService(MemberJpaRepository memoryRepository){
+    public MemberService(MemberSpringDataJpaRepository memoryRepository){
         // MemberServive 생성자가 호출될 때마다 MemberRepository 객체 생성
         // 한 객체를 다른 클래스에서 갖다 쓸 수 있도록 하려면 SingleTon 사용 (객체 하나를 전역적을 접근하도록)
         this.memberRepository = memoryRepository; // 이름 충돌날 수 있으므로 this.붙여줌
     }
+
+//    // 비다형성 설꼐
+//    public class MemberService {
+//        private final MyMemberRepository memberRepository;
+//
+//        @Autowired
+//        public MemberService(MyMemberRepository memoryRepository){
+//            this.memberRepository = memoryRepository;
+//        }
+
 
 //    MemberService에서도 MemberController Autowired 해주면 순환참조 에러
 //     컨트롤러 -> 서비스(참조) -> 컨트롤러(참조)
@@ -49,8 +62,14 @@ public class MemberService {
 
     public MemberDetResDto memberDetail(Long id){
         // 사용자로부터 찾을 id받음
-        Member member = memberRepository.findById(id);
+        Optional<Member> optMember = memberRepository.findById(id);
         MemberDetResDto memberDetResDto = new MemberDetResDto();
+
+        // Optional로 리턴하는 이유 : 예외발생 시 트랜잭션 롤백시키기 위해서
+        // 클라이언트에게 적절한 예외 메시지와 상태코드를 주는 것이 주요목적
+        // 또한, 예외를 강제 발생시킴으로서 적절한 롤백처리 하는 것도 주요목적
+        // 롤백처리 해주기 위해서는 @Transactional 어노테이션 사용해야함
+        Member member = optMember.orElseThrow(()-> new EntityNotFoundException("없는 회원입니다."));
         memberDetResDto.setId(member.getId());
         memberDetResDto.setName(member.getName());
         memberDetResDto.setEmail(member.getEmail());

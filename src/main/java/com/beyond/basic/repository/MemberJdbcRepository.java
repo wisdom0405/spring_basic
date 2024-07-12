@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // 싱글톤
 @Repository
@@ -67,7 +68,7 @@ public class MemberJdbcRepository implements MemberRepository{
     }
 
     @Override
-    public Member findById(Long inputId) {
+    public Optional<Member> findById(Long inputId) {
         Member member = new Member();
         try{
             Connection connection = dataSource.getConnection();
@@ -92,6 +93,6 @@ public class MemberJdbcRepository implements MemberRepository{
             e.printStackTrace();
         }
 
-        return member;
+        return Optional.ofNullable(member);
     }
 }

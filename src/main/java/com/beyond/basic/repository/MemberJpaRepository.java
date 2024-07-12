@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MemberJpaRepository implements MemberRepository{
@@ -41,10 +42,10 @@ public class MemberJpaRepository implements MemberRepository{
 //    }
 
     @Override
-    public Member findById(Long id) {
+    public Optional<Member> findById(Long id) {
 //        entitymanager를 통해 find한다.(리턴타입 클래스 지정 및 매개변수로 pk 필요)
         Member member = entityManager.find(Member.class, id); // 리턴타입 : member
-        return member;
+        return Optional.ofNullable(member);
     }
 
     // pk 이외의 컬럼으로 조회할 때 (수동으로 쿼리 짜야함)
