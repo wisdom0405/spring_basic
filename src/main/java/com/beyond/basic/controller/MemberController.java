@@ -25,6 +25,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // Spring IoC 컨테이너가 해당 타입의 빈을 찾아서 필드, 생성자, 메서드 파라미터 등에 자동으로 주입
     @Autowired //MemberService 싱글톤 객체를 Autowired를 통해 객체 주입받음
     public MemberController(MemberService memberService){
         this.memberService = memberService;
