@@ -32,7 +32,7 @@ public class MemberService {
         this.memberRepository = memoryRepository; // 이름 충돌날 수 있으므로 this.붙여줌
     }
 
-//    // 비다형성 설꼐
+//    // 비다형성 설계
 //    public class MemberService {
 //        private final MyMemberRepository memberRepository;
 //
