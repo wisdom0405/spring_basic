@@ -19,7 +19,7 @@ public class MemberController {
 
     // 의존성 주입(DI) 방법1. 생성자주입방식 (가장 많이 사용하는 방식)
     // 장점 : 1) final을 통해 상수로 사용가능->재할당 불가(안정성) 2) 다형성 구현가능 3) 순환참조방지
-
+    // 생성자가 1개 밖에 없을 때는 Autowired 생략가능
     private final MemberService memberService;
 
     // Spring IoC 컨테이너가 해당 타입의 빈을 찾아서 필드, 생성자, 메서드 파라미터 등에 자동으로 주입
