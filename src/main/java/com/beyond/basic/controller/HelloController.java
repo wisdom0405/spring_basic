@@ -2,7 +2,6 @@ package com.beyond.basic.controller;
 
 import com.beyond.basic.domain.Hello;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +31,13 @@ public class HelloController {
     public String helloWorld(){
         return "helloworld";
     }
+
+    // 아래와 같이 Controller에서도 HttpServletRequest를 주입받아 사용 가능
+//    public String helloWorld2(HttpServletRequest request){
+//        System.out.println(request.getSession());
+//        System.out.println(request.getHeader("Cookie"));
+//        return "helloworld";
+//    }
 
 
 //    case3. 사용자가 json 데이터 요청 (get)

@@ -4,9 +4,9 @@ import com.beyond.basic.domain.*;
 import com.beyond.basic.repository.MyMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service // 서비스 계층임을 표현함과 동시에 싱글톤객체로 생성
 // Transactional 어노테이션을 통해 모든 메서드에 트랜잭션을 적용하고,
 // 만약 예외가 발생 시 롤백처리 자동화 (각 메서드마다 하나의 트랜잭션으로 묶는다는 뜻) -> 하나라도 예외가 발생하면 모두 롤백처리
-@Transactional //JPA에서 필수
+@Transactional(readOnly = true)//JPA에서 필수
 public class MemberService {
     // 다형성 설계
     // 최초 MemberService가 만들어질때만 memerRepository가 만들어지도록 final 선언하여 재할당 불가하도록 함
@@ -51,6 +51,11 @@ public class MemberService {
         }
         Member member = dto.toEntity(); // MemberReqDto 객체 메서드
         memberRepository.save(member); // 저장된 멤버
+
+//        // Transactional 롤백처리 테스트 (예외발생)
+//        if(member.getName().equals("kim")){
+//            throw new IllegalArgumentException("잘못된 입력입니다.");
+//        }
     }
 
     public MemberDetResDto memberDetail(Long id){

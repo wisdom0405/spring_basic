@@ -30,8 +30,10 @@ public class Member{
 //    @Column(name = "pwd") 이렇게 할 수 있으나, 컬럼명과 변수명을 일치시키는 것이 혼선을 줄일 수 있음.
     private String password;
 
+    // @OneToMany의 mappedBy 속성은 Post 엔티티의 member필드에 매핑된다는 것을 나타냄
+    // 이는 Member엔티티가 관계의 주인이 아니라는 의미(FK를 관리하고 관계의 변경을 책임지는 엔티티)
     @OneToMany(mappedBy = "member") // 대문자 아님! Post엔티티의 member필드에 매핑됨을 나타냄.
-    private List<Post> posts;
+    private List<Post> posts; // 한 Member가 여러 Post를 가질 수 있음
 
     // 변수명을 camelcase(passWord)로 할 경우 데이터베이스에서는 언더바형태(pass_word)로 들어감
     @CreationTimestamp // DB에는 current_timestamp가 생성되지 않음.
@@ -63,6 +65,5 @@ public class Member{
 
         return new MemberResDto(this.id, this.name, this.email);
     }
-
 
 }
