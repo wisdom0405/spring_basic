@@ -44,6 +44,8 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	// jstl문법을 사용하기 위한 의존성 추가
 	implementation 'javax.servlet:jstl'
+	// swagger 사용을 위한 의존성 추가
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 }
 
 tasks.named('test') {

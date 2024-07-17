@@ -22,10 +22,10 @@ public class MemberService {
     private final MyMemberRepository memberRepository;
 
     @Autowired // 싱글톤객체를 주입(Dependency Injection: DI) 받는다는 것을 의미
-    public MemberService(MyMemberRepository memoryRepository){
+    public MemberService(MyMemberRepository myMemberRepository){
         // MemberServive 생성자가 호출될 때마다 MemberRepository 객체 생성
         // 한 객체를 다른 클래스에서 갖다 쓸 수 있도록 하려면 SingleTon 사용 (객체 하나를 전역적을 접근하도록)
-        this.memberRepository = memoryRepository; // 이름 충돌날 수 있으므로 this.붙여줌
+        this.memberRepository = myMemberRepository; // 이름 충돌날 수 있으므로 this.붙여줌
     }
 
 //    // 비다형성 설계
@@ -50,7 +50,11 @@ public class MemberService {
             throw new IllegalArgumentException("비밀번호가 너무 짧습니다.");
         }
         Member member = dto.toEntity(); // MemberReqDto 객체 메서드
-        memberRepository.save(member); // 저장된 멤버
+
+        if(memberRepository.findByEmail(dto.getEmail()).isPresent()){
+            throw new IllegalArgumentException("이미 존재하는 Email 입니다.");
+        }
+         memberRepository.save(member); // 저장된 멤버
 
 //        // Transactional 롤백처리 테스트 (예외발생)
 //        if(member.getName().equals("kim")){
@@ -68,13 +72,13 @@ public class MemberService {
         // 롤백처리 해주기 위해서는 @Transactional 어노테이션 사용해야함
         Member member = optMember.orElseThrow(()-> new EntityNotFoundException("없는 회원입니다."));
 
-        MemberDetResDto memberDetResDto = member.detFromEntity();
-
-        System.out.println("글쓴이의 쓴 글의 개수"+member.getPosts().size());
-        for(Post p : member.getPosts()){
-            System.out.println("글의 제목 "+p.getTitle());
-        }
-        return memberDetResDto;
+//        MemberDetResDto memberDetResDto = member.detFromEntity();
+//
+//        System.out.println("글쓴이의 쓴 글의 개수"+member.getPosts().size());
+//        for(Post p : member.getPosts()){
+//            System.out.println("글의 제목 "+p.getTitle());
+//        }
+        return member.detFromEntity();
     }
 
     public List<MemberResDto> memberList(){

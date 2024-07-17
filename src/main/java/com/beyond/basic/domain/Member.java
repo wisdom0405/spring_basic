@@ -2,8 +2,6 @@ package com.beyond.basic.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +13,7 @@ import java.util.List;
 @Entity //JPA가 관리해야할 대상 엔티티임을 명시 (EntityManager)
 //@AllArgsConstructor
 @NoArgsConstructor // AllArgs 쓰려면 NoArgs도 써야됨 : 기본생성자는 JPA에서 필수, 기본생성자가 있어야 JPA가 객체 만들 수 있음.
-public class Member{
+public class Member extends BaseEntity{
 //    name, email, password
     @Id //pk설정
     // identity : auto_increment 설정
@@ -35,12 +33,12 @@ public class Member{
     @OneToMany(mappedBy = "member") // 대문자 아님! Post엔티티의 member필드에 매핑됨을 나타냄.
     private List<Post> posts; // 한 Member가 여러 Post를 가질 수 있음
 
-    // 변수명을 camelcase(passWord)로 할 경우 데이터베이스에서는 언더바형태(pass_word)로 들어감
-    @CreationTimestamp // DB에는 current_timestamp가 생성되지 않음.
-    private LocalDateTime createdTime; // 값을 만드는 최초에만 시각 들어감
-
-    @UpdateTimestamp // 값을 수정할때마다 최근갱신시각 들어감
-    private LocalDateTime updateTime;
+//    // 변수명을 camelcase(passWord)로 할 경우 데이터베이스에서는 언더바형태(pass_word)로 들어감
+//    @CreationTimestamp // DB에는 current_timestamp가 생성되지 않음.
+//    private LocalDateTime createdTime; // 값을 만드는 최초에만 시각 들어감
+//
+//    @UpdateTimestamp // 값을 수정할때마다 최근갱신시각 들어감
+//    private LocalDateTime updateTime;
 
     public Member(String name, String email, String password){
         this.name = name;

@@ -8,14 +8,13 @@ import javax.persistence.*;
 @Entity
 @Getter
 //@NoArgsConstructor
-public class Post {
+public class Post extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
 
 //    1:1의 경우 OneToOne
-
     @ManyToOne
     @JoinColumn(name = "member_id") // name : 매핑할 DB의 col이름, default : 매핑된속성명_id
     // Post 엔티티는 Member 엔티티와 n:1관계를 가짐.

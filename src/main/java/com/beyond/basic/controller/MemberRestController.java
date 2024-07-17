@@ -2,15 +2,18 @@ package com.beyond.basic.controller;
 
 import com.beyond.basic.domain.*;
 import com.beyond.basic.service.MemberService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController // RestController의 경우 모든 메서드 상단에 @ResponseBody가 붙는 효과 발생
 @RequestMapping("/rest")
+@Api(tags = "회원관리 서비스")
 public class MemberRestController {
 
     private final MemberService memberService;
@@ -21,17 +24,23 @@ public class MemberRestController {
         this.memberService = memberService;
     }
 
+    @GetMapping("/member/text")
+    public String memberText(){
+        return"ok";
+    }
+
 //    member/create : 성공하면 200, 실패하면 400(HttpStatus.BAD_REQUEST)
     @PostMapping("/member/create")
     public ResponseEntity<Object> memberCreatePost(@RequestBody MemberReqDto dto){
         try{
             memberService.memberCreate(dto);
-            CommonResDto commonResDto = new CommonResDto(HttpStatus.CREATED,"member is successfully",dto);
-            return new ResponseEntity<>(commonResDto, HttpStatus.CREATED);
+            // body에 들어가는 HttpStatus 상태
+            CommonResDto commonResDto = new CommonResDto(HttpStatus.CREATED,"memberCreate 성공",null);
+            return new ResponseEntity<>(commonResDto, HttpStatus.CREATED); // header에 들어가는 HttpStatus
 
         }catch(IllegalArgumentException e){
             e.printStackTrace();
-            CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.BAD_REQUEST,"memberCreate failed");
+            CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.BAD_REQUEST.value(),e.getMessage());
             return new ResponseEntity<>(commonErrorDto, HttpStatus.BAD_REQUEST);
         }
     }
@@ -62,7 +71,14 @@ public class MemberRestController {
     // memberDetail : 성공하면 CommonResDto(200),
     // 예외터지면 CommonErrorDto로 return(404, NOT_FOUND) = 자원없음
     @GetMapping("/member/detail/{id}")
-    public MemberDetResDto memberDetail(@PathVariable Long id) {
-        return memberService.memberDetail(id);
+    public ResponseEntity<Object> memberDetail(@PathVariable Long id) {
+        try{
+            MemberDetResDto memberDetResDto = memberService.memberDetail(id);
+            CommonResDto commonResDto = new CommonResDto(HttpStatus.OK, "member를 찾았습니다.",memberDetResDto);
+            return new ResponseEntity<>(commonResDto, HttpStatus.OK);
+        }catch (EntityNotFoundException e){
+            CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return new ResponseEntity<>(commonErrorDto,HttpStatus.NOT_FOUND);
+        }
     }
 }
