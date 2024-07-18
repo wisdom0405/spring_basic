@@ -218,6 +218,11 @@ public class HelloController {
     // case6. js를 활용한 json 데이터 전송 (+file)
     // case7. js를 활용한 json 데이터 전송 (+여러 file)
 
+    // 빌더패턴 실습
+    public void helloBuilderTest(){
+        Hello hello = Hello.builder().build();
+    }
+
 
 }
 
