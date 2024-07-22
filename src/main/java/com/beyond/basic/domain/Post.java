@@ -14,8 +14,9 @@ public class Post extends BaseEntity{
     private Long id;
     private String title;
 
-//    1:1의 경우 OneToOne
-    @ManyToOne
+//    1:1의 경우 OneToOne을 설정하고, unique=true로 설정
+//    ManyToOne, OneToOne의 경우 default설정이 eager이므로, lazy로 변경
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id") // name : 매핑할 DB의 col이름, default : 매핑된속성명_id
     // Post 엔티티는 Member 엔티티와 n:1관계를 가짐.
     // @JoinColumn을 통해 Post의 member_id열이 Member의 id와 연결되어 있다.

@@ -1,6 +1,7 @@
 package com.beyond.basic.controller;
 
 import com.beyond.basic.domain.*;
+import com.beyond.basic.repository.MyMemberRepository;
 import com.beyond.basic.service.MemberService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import java.util.List;
 public class MemberRestController {
 
     private final MemberService memberService;
-
+    private final MyMemberRepository myMemberRepository;
 
     @Autowired
-    public MemberRestController(MemberService memberService){
+    public MemberRestController(MemberService memberService, MyMemberRepository myMemberRepository){
+
         this.memberService = memberService;
+        this.myMemberRepository = myMemberRepository;
     }
 
     @GetMapping("/member/text")
@@ -80,5 +83,15 @@ public class MemberRestController {
             CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return new ResponseEntity<>(commonErrorDto,HttpStatus.NOT_FOUND);
         }
+    }
+
+    // lazy(지연로딩), eager(즉시로딩) 테스트
+    @GetMapping("member/post/all")
+    public void memberPostAll(){
+        List<Member> memberList = myMemberRepository.findAll();
+        for(Member m : memberList){
+            System.out.println(m.getPosts().size());
+        }
+//        System.out.println(myMemberRepository.findAll());
     }
 }
