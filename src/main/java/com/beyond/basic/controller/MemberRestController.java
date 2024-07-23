@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController // RestController의 경우 모든 메서드 상단에 @ResponseBody가 붙는 효과 발생
@@ -35,17 +34,17 @@ public class MemberRestController {
 //    member/create : 성공하면 200, 실패하면 400(HttpStatus.BAD_REQUEST)
     @PostMapping("/member/create")
     public ResponseEntity<Object> memberCreatePost(@RequestBody MemberReqDto dto){
-        try{
+//        try{
             memberService.memberCreate(dto);
             // body에 들어가는 HttpStatus 상태
             CommonResDto commonResDto = new CommonResDto(HttpStatus.CREATED,"memberCreate 성공",null);
             return new ResponseEntity<>(commonResDto, HttpStatus.CREATED); // header에 들어가는 HttpStatus
-
-        }catch(IllegalArgumentException e){
-            e.printStackTrace();
-            CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.BAD_REQUEST.value(),e.getMessage());
-            return new ResponseEntity<>(commonErrorDto, HttpStatus.BAD_REQUEST);
-        }
+//
+//        }catch(IllegalArgumentException e){
+//            e.printStackTrace();
+//            CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.BAD_REQUEST.value(),e.getMessage());
+//            return new ResponseEntity<>(commonErrorDto, HttpStatus.BAD_REQUEST);
+//        }
     }
 
     // 수정 2가지 요청 방식 : PUT, PATCH (통신규약O 기능X)
@@ -75,14 +74,14 @@ public class MemberRestController {
     // 예외터지면 CommonErrorDto로 return(404, NOT_FOUND) = 자원없음
     @GetMapping("/member/detail/{id}")
     public ResponseEntity<Object> memberDetail(@PathVariable Long id) {
-        try{
+//        try{
             MemberDetResDto memberDetResDto = memberService.memberDetail(id);
             CommonResDto commonResDto = new CommonResDto(HttpStatus.OK, "member를 찾았습니다.",memberDetResDto);
             return new ResponseEntity<>(commonResDto, HttpStatus.OK);
-        }catch (EntityNotFoundException e){
-            CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return new ResponseEntity<>(commonErrorDto,HttpStatus.NOT_FOUND);
-        }
+//        }catch (EntityNotFoundException e){
+//            CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.NOT_FOUND.value(), e.getMessage());
+//            return new ResponseEntity<>(commonErrorDto,HttpStatus.NOT_FOUND);
+//        }
     }
 
     // lazy(지연로딩), eager(즉시로딩) 테스트
