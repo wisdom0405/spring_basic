@@ -57,7 +57,6 @@ public class HelloController {
         return hello;
     }
 
-
     // @GetMapping(without Param) : 별도의 파라미터 없이 GET API를 호출하는 경우 사용되는 방법
     //    case4. 사용자가 json 데이터를 요청하되, parameter 형식으로 특정객체 요청
 
@@ -217,6 +216,15 @@ public class HelloController {
     // case5. js를 활용한 json 데이터 전송
     // case6. js를 활용한 json 데이터 전송 (+file)
     // case7. js를 활용한 json 데이터 전송 (+여러 file)
+
+    // formData를 통해 json, file(멀티미디어)을 처리할 때 RequestPart 어노테이션을 많이 사용한다.
+    @PostMapping("/axios-json-file-view")
+    @ResponseBody
+    public String axiosJsonFilePost(@RequestPart("hello") Hello hello, @RequestPart("photo") MultipartFile photo) {
+        System.out.println(hello);
+        System.out.println(photo.getOriginalFilename());
+        return "ok";
+    }
 
     // 빌더패턴 실습
     public void helloBuilderTest(){

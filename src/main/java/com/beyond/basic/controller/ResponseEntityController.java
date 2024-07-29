@@ -64,7 +64,4 @@ public class ResponseEntityController {
         return new ResponseEntity<>(commonResDto, HttpStatus.CREATED); //header에 들어가는 HttpStatus.CREATED
     }
 
-
-
-
 }
